@@ -14,3 +14,4 @@ def get_temperature( long , lat ,year,months) :
         return np.array(list(d.json()["properties"]["parameter"]["T2M_MAX"].values()))[np.array(months)-1]
      except:
          print("error in get request")
+         return 0
