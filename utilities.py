@@ -1,6 +1,7 @@
 import requests
 import numpy as np
 from CoolProp.CoolProp import PropsSI
+from config import *
 
 def get_temperature( long , lat ,year,months):
      try:
@@ -17,59 +18,60 @@ def get_temperature( long , lat ,year,months):
          print("error in get request")
          return (None , 1)
 
-ORC_FLUIDS = [
-        # Hydrofluorocarbons
-        "R134a",
-        "R143a",
-        "R152A",
-        "R227EA",
-        "R236EA",
-        "R236FA",
-        "R245ca",
-        "R245fa",
-        "R365MFC",
+# ORC_FLUIDS = [
+#         "water",
+#         # Hydrofluorocarbons
+#         "R134a",
+#         "R143a",
+#         "R152A",
+#         "R227EA",
+#         "R236EA",
+#         "R236FA",
+#         "R245ca",
+#         "R245fa",
+#         "R365MFC",
 
-        # Hydrofluoroolefins
-        "R1233zd(E)",
-        "R1234yf",
-        "R1234ze(E)",
-        "R1234ze(Z)",
+#         # Hydrofluoroolefins
+#         "R1233zd(E)",
+#         "R1234yf",
+#         "R1234ze(E)",
+#         "R1234ze(Z)",
 
-        # Hydrochlorofluorocarbons
-        "R123",
-        "R124",
-        "R141b",
-        "R142b",
-        "R22",
+#         # Hydrochlorofluorocarbons
+#         "R123",
+#         "R124",
+#         "R141b",
+#         "R142b",
+#         "R22",
 
-        # Hydrocarbons
-        "n-Butane",
-        "IsoButane",
-        "n-Pentane",
-        "IsoPentane",
-        "Cyclopentane",
-        "CycloHexane",
-        "n-Hexane",
-        "n-Heptane",
-        "n-Octane",
-        "Benzene",
-        "Toluene",
+#         # Hydrocarbons
+#         "n-Butane",
+#         "IsoButane",
+#         "n-Pentane",
+#         "IsoPentane",
+#         "Cyclopentane",
+#         "CycloHexane",
+#         "n-Hexane",
+#         "n-Heptane",
+#         "n-Octane",
+#         "Benzene",
+#         "Toluene",
 
-        # Oxygenated compounds
-        "Acetone",
-        "Ethanol",
-        "Methanol",
+#         # Oxygenated compounds
+#         "Acetone",
+#         "Ethanol",
+#         "Methanol",
 
-        # Specialty fluids
-        "Novec649"
-    ]
+#         # Specialty fluids
+#         "Novec649"
+#     ]
 
 def available_fluids():  
     global ORC_FLUIDS
     available_fluids = [] 
     for i in ORC_FLUIDS:
         for j in range(ORC_FLUIDS.index(i) + 1 , len(ORC_FLUIDS)):
-            mixture = f"SRK::{i}[0.5]&{ORC_FLUIDS[j]}[0.5]"
+            mixture = f"{thermodynamic_calculation_method}::{i}[0.5]&{ORC_FLUIDS[j]}[0.5]"
             try:
                 PropsSI("D", "T", 300, "P", 101325, mixture)
                 available_fluids.append(set((i , ORC_FLUIDS[j])))
@@ -79,16 +81,17 @@ def available_fluids():
 
 def fil(a):
     b = a / a.sum()
-    filtered_list =  np.array(list(map(lambda f: 0 if f < 1e-6 else f , b)))
+    filtered_list =  np.array(list(map(lambda f: 0 if f < mixture_mass_fraction_limit else f , b)))
+    # filtered_list = b[b > 1e-6]
     return filtered_list / sum(filtered_list)
-def normalization(x ,  n_select = 4,zero_limit = 1e-5):
+def normalization(x):
     if x.ndim == 1:
-        nth_biggest = np.argsort(x)[::-1][:n_select]
+        nth_biggest = np.argsort(x)[::-1][:n_fluids]
         zeros = np.zeros(x.shape)
         zeros[nth_biggest] = x[nth_biggest]
         return fil(zeros)
     else:    
-        nth_biggest = np.argsort(x)[:,::-1][: , :n_select]
+        nth_biggest = np.argsort(x)[:,::-1][: , :n_fluids]
         zeros = np.zeros(x.shape)
         for i in range(len(nth_biggest)):
             print(i)
