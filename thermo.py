@@ -4,7 +4,7 @@ from config import *
 def calculate_thermodynamics(fluids , T_evap : float , T0 : float,P_super_heat : float  , mass_flow_rate : float = 1): 
     fluid,comp = list(fluids.keys()) , list(fluids.values())
     fluid_string = "&".join(fluid)
-    state = CoolProp.AbstractState("SRK",fluid_string)
+    state = CoolProp.AbstractState(thermodynamic_calculation_method,fluid_string)
     state.set_mole_fractions(comp)
     #state.build_phase_envelope("")
 

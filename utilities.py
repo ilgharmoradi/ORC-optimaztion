@@ -94,7 +94,6 @@ def normalization(x):
         nth_biggest = np.argsort(x)[:,::-1][: , :n_fluids]
         zeros = np.zeros(x.shape)
         for i in range(len(nth_biggest)):
-            print(i)
             for j in range(len(nth_biggest[i])):
                 zeros[i][nth_biggest[i][j]] = x[i][j]
         return np.apply_along_axis(fil, 1 , zeros)

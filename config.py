@@ -1,4 +1,4 @@
-run_name = "run with summer"
+run_name = "run with SRK"
 T0 = 20  #default ambient temperature [C]
 T_source = 500 # heat source temperature [C]
 ORC_FLUIDS = [
@@ -51,4 +51,5 @@ cooling_temperature_difference = 15 #[C]
 n_fluids = 4
 should_print_run = True
 mixture_mass_fraction_limit = 1e-6
-thermodynamic_calculation_method = "SRK"
+thermodynamic_calculation_method = "REFPROP"
+REFPROP_path = r"C:\Program Files\REFPROP"

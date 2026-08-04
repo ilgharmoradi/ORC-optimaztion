@@ -11,9 +11,14 @@ from pymoo.optimize import minimize
 
 import csv
 import time
-print(ORC_FLUIDS)
 
 print("coolprop version:" , CoolProp.__version__)
+
+if thermodynamic_calculation_method == "REFPROP":
+        CoolProp.CoolProp.set_config_string(CoolProp.CoolProp.ALTERNATIVE_REFPROP_PATH,REFPROP_path)
+        print("using REFPROP version:",CoolProp.CoolProp.get_global_param_string("REFPROP_version"))
+
+
 available_fluids = available_fluids()
 
 n = 0
@@ -38,17 +43,18 @@ class OptimizeProblem(ElementwiseProblem):
         normalized_x = normalization(x[:len(ORC_FLUIDS)])
         masked_fluids = np.array(ORC_FLUIDS)[normalized_x != 0]
 
+        n += 1
+
         for i in list(combinations(masked_fluids , 2)):
             if not (set(i) in  available_fluids):
                 out["F"] = [1e6 , 1e6]
                 out["G"] = [1e6, 1e6, 1e6 , 1000e6]
-                print("incompatible fluids")
+                print("incompatible fluids" , end="\r" , flush=True)
                 return
             
 
         fluids = dict(zip(masked_fluids , normalized_x[normalized_x != 0]))
-        if should_print_run: print(n , masked_fluids)
-        n += 1
+        if should_print_run: print(n , masked_fluids , "  " , end="\r" , flush=True)
         try:
             props = calculate_thermodynamics(fluids,T_source,T0 , x[-1])
 
@@ -58,10 +64,9 @@ class OptimizeProblem(ElementwiseProblem):
             g4 = props[3] - x[-1]
 
             out["F"] = [-props[1] , -props[0]]
-
             out["G"] = [g1 , g2 , g3 , g4]
-        except Exception as e:
-            # print(e)
+
+        except:
             out["F"] = [1e6 , 1e6]
             out["G"] = [1e6, 1e6, 1e6 , 1000e6]
             return
@@ -74,9 +79,10 @@ def main():
     else:
         print("temperature of Isfahan city during summer:" , temperatures_at_Isfahan)
         T0 = np.sum(temperatures_at_Isfahan) / 3
+
     algorithm = NSGA2(pop_size=20)
-    T0 = 20
     p = OptimizeProblem()
+
     with open( f"results/{int(time.time())}.csv" if run_name.strip() == "" else f"results/{run_name}.csv" , "w") as f:
         csv_handler = csv.writer(f)
         csv_handler.writerow(["run N" , *ORC_FLUIDS , "eta" , "P"])
@@ -87,8 +93,8 @@ def main():
             normalized_x = normalization (res.X[:,:len(ORC_FLUIDS)])
             for j in range(len(normalized_x)):
                 csv_handler.writerow([i , *normalized_x[j] , -res.F[j][0] , res.X[j][len(ORC_FLUIDS)]])
-
         t_end = time.time()
+
         print("calculation time : " , t_end - t_start)
 
 if __name__ == '__main__':
