@@ -1,4 +1,3 @@
-#TODO add comments around
 from itertools import combinations
 from utilities import get_temperature , available_fluids , normalization , ORC_FLUIDS
 import CoolProp
@@ -15,10 +14,11 @@ import time
 print("coolprop version:" , CoolProp.__version__)
 
 if thermodynamic_calculation_method == "REFPROP":
+        if REFPROP_path.strip() == "" : raise Exception("you must specify REFPROP installation path")
         CoolProp.CoolProp.set_config_string(CoolProp.CoolProp.ALTERNATIVE_REFPROP_PATH,REFPROP_path)
         print("using REFPROP version:",CoolProp.CoolProp.get_global_param_string("REFPROP_version"))
 
-
+# gets the available fluids mixtures based on thermodynamics calculation method
 available_fluids = available_fluids()
 
 n = 0
@@ -88,7 +88,7 @@ def main():
         csv_handler.writerow(["run N" , *ORC_FLUIDS , "eta" , "P"])
 
         t_start = time.time()
-        for i in range(0 , 1):
+        for i in range(1 , n_run+1):
             res = minimize(p , algorithm , ("n_gen",40) , seed = i)
             normalized_x = normalization (res.X[:,:len(ORC_FLUIDS)])
             for j in range(len(normalized_x)):

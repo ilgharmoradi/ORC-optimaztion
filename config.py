@@ -48,8 +48,9 @@ ORC_FLUIDS = [
         "Novec649"
     ]
 cooling_temperature_difference = 15 #[C]
-n_fluids = 4
+n_fluids = 4 # number of fluids that algorithm should make a mixture with
 should_print_run = True
-mixture_mass_fraction_limit = 1e-6
-thermodynamic_calculation_method = "REFPROP"
+mixture_mass_fraction_limit = 1e-6 
+thermodynamic_calculation_method = "REFPROP" # [REFPROP | SRK] use REFPROP if you have refprop installed 
 REFPROP_path = r"C:\Program Files\REFPROP"
+n_run = 1 #how many times should the algorithm run

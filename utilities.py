@@ -2,7 +2,7 @@ import requests
 import numpy as np
 from CoolProp.CoolProp import PropsSI
 from config import *
-
+ 
 def get_temperature( long , lat ,year,months):
      try:
         append = ""
@@ -18,53 +18,7 @@ def get_temperature( long , lat ,year,months):
          print("error in get request")
          return (None , 1)
 
-# ORC_FLUIDS = [
-#         "water",
-#         # Hydrofluorocarbons
-#         "R134a",
-#         "R143a",
-#         "R152A",
-#         "R227EA",
-#         "R236EA",
-#         "R236FA",
-#         "R245ca",
-#         "R245fa",
-#         "R365MFC",
 
-#         # Hydrofluoroolefins
-#         "R1233zd(E)",
-#         "R1234yf",
-#         "R1234ze(E)",
-#         "R1234ze(Z)",
-
-#         # Hydrochlorofluorocarbons
-#         "R123",
-#         "R124",
-#         "R141b",
-#         "R142b",
-#         "R22",
-
-#         # Hydrocarbons
-#         "n-Butane",
-#         "IsoButane",
-#         "n-Pentane",
-#         "IsoPentane",
-#         "Cyclopentane",
-#         "CycloHexane",
-#         "n-Hexane",
-#         "n-Heptane",
-#         "n-Octane",
-#         "Benzene",
-#         "Toluene",
-
-#         # Oxygenated compounds
-#         "Acetone",
-#         "Ethanol",
-#         "Methanol",
-
-#         # Specialty fluids
-#         "Novec649"
-#     ]
 
 def available_fluids():  
     global ORC_FLUIDS
@@ -79,6 +33,8 @@ def available_fluids():
                 pass
     return available_fluids
 
+# filter the fluid with mass fraction less than mixture_mass_fraction_limit
+# remove the extra fluids with respect to n_fluid
 def fil(a):
     b = a / a.sum()
     filtered_list =  np.array(list(map(lambda f: 0 if f < mixture_mass_fraction_limit else f , b)))
