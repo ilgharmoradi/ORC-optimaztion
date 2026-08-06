@@ -51,20 +51,20 @@ def normalization(x , n = None):
         zeros = np.zeros(x.shape)
         zeros[nth_biggest] = x[nth_biggest]
         return fil(zeros)
-    else:    
-        nth_biggest_uncut = np.argsort(x)[:,::-1]
-        nth_biggest = []
-        if max_n_fluids:
-            for i in range(len(nth_biggest_uncut)):
-                print(n[i])
-                nth_biggest.append(nth_biggest_uncut[i,:int(n[i])])
-            nth_biggest = np.array(nth_biggest , dtype=object)
-        else:
-            nth_biggest = np.array(nth_biggest)
-            nth_biggest = nth_biggest_uncut[: , :n]
-        print(nth_biggest)
-        zeros = np.zeros(x.shape)
-        for i in range(len(nth_biggest)):
-            for j in range(len(nth_biggest[i])):
-                zeros[i][nth_biggest[i][j]] = x[i][j]
+    # else:    
+    #     nth_biggest_uncut = np.argsort(x)[:,::-1]
+    #     nth_biggest = []
+    #     if max_n_fluids:
+    #         for i in range(len(nth_biggest_uncut)):
+    #             print(n[i])
+    #             nth_biggest.append(nth_biggest_uncut[i,:int(n[i])])
+    #         nth_biggest = np.array(nth_biggest , dtype=object)
+    #     else:
+    #         nth_biggest = np.array(nth_biggest)
+    #         nth_biggest = nth_biggest_uncut[: , :n]
+    #     print(nth_biggest)
+    #     zeros = np.zeros(x.shape)
+    #     for i in range(len(nth_biggest)):
+    #         for j in range(len(nth_biggest[i])):
+    #             zeros[i][nth_biggest[i][j]] = x[i][j]
         return np.apply_along_axis(fil, 1 , zeros)

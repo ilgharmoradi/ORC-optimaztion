@@ -63,7 +63,6 @@ class OptimizeProblem(ElementwiseProblem):
         k_fluids = 1
         if max_n_fluids != None:
             k_fluids = floor(x[-2] * (max_n_fluids - 1 + 1) + 1)
-            print(k_fluids)
         normalized_x = normalization(x[:len(ORC_FLUIDS)])
         if max_n_fluids != None:
             normalized_x = normalization(x[:len(ORC_FLUIDS)] , k_fluids)
@@ -84,7 +83,6 @@ class OptimizeProblem(ElementwiseProblem):
         try:
             print(n)
             props = calculate_thermodynamics(fluids,T_source,T0 , x[-1])
-            print(k_fluids)
             g1 = -props["w_net"]
             g2 = -props["eta"]
             g3 = -props["q_out"]
@@ -110,7 +108,7 @@ def main():
         print("temperature of Isfahan city during summer:" , temperatures_at_Isfahan)
         T0 = np.sum(temperatures_at_Isfahan) / 3
 
-    algorithm = NSGA2(pop_size=40)
+    algorithm = NSGA2(pop_size=n_pop)
     p = OptimizeProblem()
 
     with open( f"results/{int(time.time())}.csv" if run_name.strip() == "" else f"results/{run_name}.csv" , "w") as f:
@@ -119,10 +117,10 @@ def main():
         #F[0] -> eta F[1] -> net_work F[2] -> Q F[3] -> n_fluid
         t_start = time.time()
         for i in range(1 , n_run+1):
-            res = minimize(p , algorithm , ("n_gen",10) , seed = i)
-            normalized_x = normalization (res.X[:,:len(ORC_FLUIDS)] , res.F[:,-1])
-            for j in range(len(normalized_x)):
-                csv_handler.writerow([i , *normalized_x[j] , -res.F[j][0] ,res.F[j][-1] if max_n_fluids else n_fluids ,res.X[j][-1]])
+            res = minimize(p , algorithm , ("n_gen",n_gen) , seed = i)
+            for j in range(len(res.X)):
+                normalized_x = normalization (res.X[j,:len(ORC_FLUIDS)] , int(res.F[j,-1]))
+                csv_handler.writerow([i , *normalized_x , -res.F[j][0] ,res.F[j][-1] if max_n_fluids else n_fluids ,res.X[j][-1]])
         t_end = time.time()
 
         print("calculation time : " , t_end - t_start)
