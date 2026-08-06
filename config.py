@@ -1,6 +1,6 @@
-run_name = "run with SRK"
+run_name = "run g"
 T0 = 20  #default ambient temperature [C]
-T_source = 500 # heat source temperature [C]
+T_source = 200 # heat source temperature [C]
 ORC_FLUIDS = [
         # Hydrofluorocarbons
         "R134a",
@@ -48,7 +48,9 @@ ORC_FLUIDS = [
         "Novec649"
     ]
 cooling_temperature_difference = 15 #[C]
-n_fluids = 4 # number of fluids that algorithm should make a mixture with
+n_fluids = None # number of fluids that algorithm should make a mixture with
+max_n_fluids = 2 # algorithm can pick best fluid mixture for you [put -1 for none restricted fluid selection]
+#WARN :n_fluids and max_n_fluids are incompatible variables and one must be None at all time
 should_print_run = True
 mixture_mass_fraction_limit = 1e-6 
 thermodynamic_calculation_method = "REFPROP" # [REFPROP | SRK] use REFPROP if you have refprop installed 
