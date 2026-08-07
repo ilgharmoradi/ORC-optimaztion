@@ -1,11 +1,12 @@
 import CoolProp
 from config import *
+from math import isnan
 
 def calculate_thermodynamics(fluids , T_evap : float , T0 : float,P_super_heat : float  , mass_flow_rate : float = 1): 
     fluid,comp = list(fluids.keys()) , list(fluids.values())
     fluid_string = "&".join(fluid)
     state = CoolProp.AbstractState(thermodynamic_calculation_method,fluid_string)
-    state.set_mole_fractions(comp)
+    if len(fluid) != 1: state.set_mole_fractions(comp)
 
     T_cond = T0 + cooling_temperature_difference #small temperature difference for air cooling
     state.update(CoolProp.QT_INPUTS , 0 , T_cond + 273.15)
@@ -33,6 +34,8 @@ def calculate_thermodynamics(fluids , T_evap : float , T0 : float,P_super_heat :
         Q_turbine_out = state.Qmass()
     except:
         pass
+    if isnan(Q_turbine_out): Q_turbine_out = 10
+
     w_turbine = h3 - h4
     w_pump = h2 - h1
     w_net = w_turbine - w_pump
