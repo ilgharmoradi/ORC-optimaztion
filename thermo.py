@@ -28,7 +28,7 @@ def calculate_thermodynamics(fluids , T_evap : float , T0 : float,P_super_heat :
 
     state.update(CoolProp.PSmass_INPUTS , P0 , s4)
     h4 = state.hmass()
-    Q_turbine_out = -1
+    Q_turbine_out = 10
     try:
         Q_turbine_out = state.Qmass()
     except:

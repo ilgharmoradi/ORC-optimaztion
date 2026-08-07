@@ -1,6 +1,8 @@
-run_name = "run for water"
-T0 = 20  #default ambient temperature [C]
-T_source = 600 # heat source temperature [C]
+run_name = "run mod 4"
+T0 = 40  #default ambient temperature [C]
+T_source = 250 # heat source temperature [C]
+max_boiler_pressure = 10e6 #[pa]
+max_turbine_outlet_quality = 0.9 #[0-1]
 ORC_FLUIDS = [
         "water",
         # Hydrofluorocarbons
@@ -49,12 +51,13 @@ ORC_FLUIDS = [
         "Novec649"
     ]
 cooling_temperature_difference = 15 #[C]
-n_fluids = None # number of fluids that algorithm should make a mixture with
-max_n_fluids = 4 # algorithm can pick best fluid mixture for you [put -1 for none restricted fluid selection]
+n_fluids = 4 # number of fluids that algorithm should make a mixture with
+max_n_fluids = None # algorithm can pick best fluid mixture for you [put -1 for none restricted fluid selection]
+should_minimize_n_fluids = False
 #WARN :n_fluids and max_n_fluids are incompatible variables and one must be None at all time
 should_print_run = True
 mixture_mass_fraction_limit = 1e-6 
-thermodynamic_calculation_method = "SRK" # [REFPROP | SRK] use REFPROP if you have refprop installed 
+thermodynamic_calculation_method = "REFPROP" # [REFPROP | SRK] use REFPROP if you have refprop installed 
 REFPROP_path = r"C:\Program Files\REFPROP"
 n_run = 1 #how many times should the algorithm run
 n_gen = 80

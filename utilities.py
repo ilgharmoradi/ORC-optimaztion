@@ -43,7 +43,7 @@ def fil(a):
     return filtered_list / sum(filtered_list)
 def normalization(x , n = None):
     global n_fluids
-    print(n_fluids)
+    print(n , n_fluids)
     if n_fluids:
         n = n_fluids
     if x.ndim == 1:
@@ -68,3 +68,6 @@ def normalization(x , n = None):
     #         for j in range(len(nth_biggest[i])):
     #             zeros[i][nth_biggest[i][j]] = x[i][j]
         return np.apply_along_axis(fil, 1 , zeros)
+
+def normalize_k(x):
+    return floor(x * (max_n_fluids) + 1)
