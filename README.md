@@ -16,10 +16,20 @@ to ease algorithm and thermodynamics parameter changing a python file named `con
 |---|------|---|
 |`run_name`|created CSV file name|
 |`T0`|default ambient temperature|C(deg)|
-|`max_boiler_pressure`|maximum boiler pressure|P|
+|`max_boiler_pressure`|maximum boiler pressure|Pa|
 |`max_turbine_outlet_quality`|maximum allowed turbine outlet steam quality|between [0-1]|
 |`ORC_FLUIDS`|list of fluids to be tested (all fluids must be supported by CoolProp backend)||
 `cooling_temperature_difference`|temperature difference between ambient and condenser |
+`n_fluids`| fixed number of fluids to be screened |
+`max_n_fluids`| algorithm can pick best fluid mixture for you [put -1 for none restricted fluid selection]|
+`mixture_mass_fraction_limit`| what mass fraction of any fluid in mixture should the algorithm consider as zero |
+`thermodynamic_calculation_method`| from what method should the calculation come from | REFPROP or SRK or HEOS
+`REFPROP_path`| if `thermodynamic_calculation_method` is set to REFPROP this property should give path to REFPROP.dll file |
+`n_run`| number of times the algorithm should repeat|
+`n_gen`| number of generation for genetic algorithm|
+`n_pop`| number of population for each generation
+
+#### n_fluids and max_n_fluids are incompatible variables and one must be None at all time
 
 ---
 

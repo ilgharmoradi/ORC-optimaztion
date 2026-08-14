@@ -58,7 +58,7 @@ should_minimize_n_fluids = False
 #WARN :n_fluids and max_n_fluids are incompatible variables and one must be None at all time
 should_print_run = True
 mixture_mass_fraction_limit = 1e-6 
-thermodynamic_calculation_method = "HEOS" # [REFPROP | SRK | ] use REFPROP if you have refprop installed 
+thermodynamic_calculation_method = "HEOS" # [REFPROP | SRK | HEOS] use REFPROP if you have refprop installed 
 REFPROP_path = r"C:\Program Files\REFPROP"
 n_run = 5 #how many times should the algorithm run
 n_gen =80 
