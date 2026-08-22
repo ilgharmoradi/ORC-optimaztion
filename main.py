@@ -90,7 +90,7 @@ class OptimizeProblem(ElementwiseProblem):
             g3 = -props["q_out"]
             g4 = props["P0"] - x[-1]
 
-            g5 = -(props["Q_turbine_out"] - max_turbine_outlet_quality)
+            g5 = -(props["Q_turbine_out"] - min_turbine_outlet_quality)
             out_F = [-props["eta"] , -props["w_net"], -props["Q_turbine_out"] ]                                                         #n fluid
             if max_n_fluids and should_minimize_n_fluids: out_F.append(k_fluids)
             out["G"] = [g1 , g2 , g3 , g4 , g5]
@@ -118,7 +118,7 @@ def main():
         # csv_handler.writerow(["Run name" , "thermo method","T0" , "T source" , "max n fluid" if max_n_fluids else "n fluids" ,
         #                        "cooling temperature difference" , "max turbine outlet quality"])
         # csv_handler.writerow([run_name , thermodynamic_calculation_method,T0 , T_source , max_n_fluids if max_n_fluids else n_fluids,
-        #                        cooling_temperature_difference , max_turbine_outlet_quality])
+        #                        cooling_temperature_difference , min_turbine_outlet_quality])
         csv_handler.writerow(["run N" , *ORC_FLUIDS , "eta" , "n fluid","P","Q"])
         #F[0] -> eta F[1] -> net_work F[2] -> Q F[3] -> n_fluid
         t_start = time.time()

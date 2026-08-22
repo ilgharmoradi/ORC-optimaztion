@@ -2,7 +2,7 @@ run_name = "run mod 1"
 T0 = 20  #default ambient temperature [C]
 T_source = 50 # heat source temperature [C]
 max_boiler_pressure = 10e6 #[pa]
-max_turbine_outlet_quality = 1 #[0-1]
+min_turbine_outlet_quality = 1 #[0-1]
 ORC_FLUIDS = [
         # "water",
         # Hydrofluorocarbons
@@ -52,6 +52,7 @@ ORC_FLUIDS = [
         "Novec649"
     ]
 cooling_temperature_difference = 0 #[C]
+condenser_pressure_drop = 0 #[pa]
 n_fluids = None # number of fluids that algorithm should make a mixture with
 max_n_fluids = 1 # algorithm can pick best fluid mixture for you [put -1 for none restricted fluid selection]
 should_minimize_n_fluids = False

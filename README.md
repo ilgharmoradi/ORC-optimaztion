@@ -17,7 +17,8 @@ to ease algorithm and thermodynamics parameter changing a python file named `con
 |`run_name`|created CSV file name|
 |`T0`|default ambient temperature|C(deg)|
 |`max_boiler_pressure`|maximum boiler pressure|Pa|
-|`max_turbine_outlet_quality`|maximum allowed turbine outlet steam quality|between [0-1]|
+|`min_turbine_outlet_quality`|minimum allowed turbine outlet steam quality|between [0-1]|
+|`condenser_pressure_drop`|condenser inlet and outlet pressure difference |positive value in Pa|
 |`ORC_FLUIDS`|list of fluids to be tested (all fluids must be supported by CoolProp backend)||
 `cooling_temperature_difference`|temperature difference between ambient and condenser |
 `n_fluids`| fixed number of fluids to be screened |
