@@ -7,6 +7,9 @@ Multi-objective optimization of organic Rankine cycle (ORC) for waste heat recov
 NSGA2 genetic algorithm is used to determine optimal fluid mixture and cycle parameters during summer
 (national grid peak load time)
 
+iranian power infrastructure and population and industrial has seen disproportional growth over the years. this means the unprecedented growth in population and residental power consumption especially in air conditioning sector has cased some problem including planed power outages for houses and industries.
+this project investigates fluid selection for waste heat recovery as a solutions to power outages for Iranian iron and steel indurates located in Isfahan city
+
 ---
 
 ## changing the algorithm and thermodynamics parameters
