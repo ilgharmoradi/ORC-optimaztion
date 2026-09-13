@@ -18,7 +18,6 @@ if config.thermodynamic_calculation_method == "REFPROP":
         if config.REFPROP_path.strip() == "" : raise Exception("you must specify REFPROP installation path")
         CoolProp.CoolProp.set_config_string(CoolProp.CoolProp.ALTERNATIVE_REFPROP_PATH,config.REFPROP_path)
         print("using REFPROP version:",CoolProp.CoolProp.get_global_param_string("REFPROP_version"))
-
 # gets the available fluids mixtures based on thermodynamics calculation method
 available_fluids = available_fluids()
 
