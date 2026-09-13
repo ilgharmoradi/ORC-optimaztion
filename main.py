@@ -2,7 +2,7 @@ from itertools import combinations
 from utilities import get_temperature , available_fluids , normalization , normalize_k
 import CoolProp
 from thermo import calculate_thermodynamics
-import config
+from  load_config import config 
 import numpy as np
 from pymoo.core.problem import ElementwiseProblem
 from pymoo.algorithms.moo.nsga2 import NSGA2
@@ -18,9 +18,7 @@ if config.thermodynamic_calculation_method == "REFPROP":
         if config.REFPROP_path.strip() == "" : raise Exception("you must specify REFPROP installation path")
         CoolProp.CoolProp.set_config_string(CoolProp.CoolProp.ALTERNATIVE_REFPROP_PATH,config.REFPROP_path)
         print("using REFPROP version:",CoolProp.CoolProp.get_global_param_string("REFPROP_version"))
-if config.max_n_fluids != None and config.n_fluids != None:
-    raise Exception("n_fluids and max_n_fluids are incompatible variables and one must be None at all time")
- 
+
 # gets the available fluids mixtures based on thermodynamics calculation method
 available_fluids = available_fluids()
 
@@ -29,13 +27,13 @@ n = 0
 class OptimizeProblem(ElementwiseProblem):
     def __init__(self):
         n_var = len(config.ORC_FLUIDS) + 1
-        n_obj= 3
+        n_obj= 2
         n_ieq_constr = 5
         xl = np.zeros(len(config.ORC_FLUIDS) + 1)
         xu = np.array([*[1]*len(config.ORC_FLUIDS) , config.max_boiler_pressure])
 
         self.penalty_G = [1e6, 1e6, 1e6, 1e6 , 1e6 ]
-        self.penalty_F = [1e6 , 1e6 , 1e6]
+        self.penalty_F = [1e6 , 1e6]
         
 
         if config.max_n_fluids != None:
@@ -88,7 +86,7 @@ class OptimizeProblem(ElementwiseProblem):
             g4 = props["P0"] - x[-1]
 
             g5 = -(props["Q_turbine_out"] - config.min_turbine_outlet_quality)
-            out_F = [-props["eta"] , -props["w_net"], -props["Q_turbine_out"] ]                                                         #n fluid
+            out_F = [-props["eta"] , -props["w_net"] ]                                                         #n fluid
             if config.max_n_fluids and config.should_minimize_n_fluids: out_F.append(k_fluids)
             out["G"] = [g1 , g2 , g3 , g4 , g5]
 
@@ -102,7 +100,7 @@ class OptimizeProblem(ElementwiseProblem):
 
 def main():
     global T0
-    temperatures_at_Isfahan,error = get_temperature(51.6804 , 32.6613 , 2025 , (6 ,7 ,8))
+    temperatures_at_Isfahan,error = get_temperature(config.city_location , 2025 , (6 ,7 ,8))
     if error == 0:
         print("temperature of Isfahan city during summer:" , temperatures_at_Isfahan)
         T0 = np.mean(temperatures_at_Isfahan)

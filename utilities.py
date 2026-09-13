@@ -1,10 +1,11 @@
 import requests
 import numpy as np
 from CoolProp.CoolProp import PropsSI
-from config import *
 from math import floor
+from load_config import config 
 
-def get_temperature( long , lat ,year,months):
+def get_temperature( location ,year,months):
+     long , lat = location
      try:
         append = ""
         if isinstance(year , tuple):
@@ -22,14 +23,13 @@ def get_temperature( long , lat ,year,months):
 
 
 def available_fluids():  
-    global ORC_FLUIDS
     available_fluids = [] 
-    for i in ORC_FLUIDS:
-        for j in range(ORC_FLUIDS.index(i) + 1 , len(ORC_FLUIDS)):
-            mixture = f"{thermodynamic_calculation_method}::{i}[0.5]&{ORC_FLUIDS[j]}[0.5]"
+    for i in config.ORC_FLUIDS:
+        for j in range(config.ORC_FLUIDS.index(i) + 1 , len(config.ORC_FLUIDS)):
+            mixture = f"{config.thermodynamic_calculation_method}::{i}[0.5]&{config.ORC_FLUIDS[j]}[0.5]"
             try:
                 PropsSI("D", "T", 300, "P", 101325, mixture)
-                available_fluids.append(set((i , ORC_FLUIDS[j])))
+                available_fluids.append(set((i , config.ORC_FLUIDS[j])))
             except:
                 pass
     return available_fluids
@@ -38,13 +38,12 @@ def available_fluids():
 # remove the extra fluids with respect to n_fluid
 def fil(a):
     b = a / a.sum()
-    filtered_list =  np.array(list(map(lambda f: 0 if f < mixture_mass_fraction_limit else f , b)))
+    filtered_list =  np.array(list(map(lambda f: 0 if f < config.mixture_mass_fraction_limit else f , b)))
     # filtered_list = b[b > 1e-6]
     return filtered_list / sum(filtered_list)
 def normalization(x , n = None):
-    global n_fluids
-    if n_fluids:
-        n = n_fluids
+    if config.n_fluids:
+        n = config.n_fluids
     if x.ndim == 1:
         nth_biggest = np.argsort(x)[::-1][:n]
         zeros = np.zeros(x.shape)
@@ -52,6 +51,6 @@ def normalization(x , n = None):
         return fil(zeros)
 
 def normalize_k(x):
-    if max_n_fluids == 1:
+    if config.max_n_fluids == 1:
         return 1
-    return floor(x * (max_n_fluids) + 1)
+    return floor(x * (config.max_n_fluids) + 1)

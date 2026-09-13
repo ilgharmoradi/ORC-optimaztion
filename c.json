@@ -1,0 +1,66 @@
+{
+  "run_name": "testing with json",
+  "T0": 20,
+  "city_location": [51.6804, 32.6613],
+  "T_source": 250,
+  "max_boiler_pressure": 4000000,
+  "min_turbine_outlet_quality": 1,
+
+  "ORC_FLUIDS": [
+    "R32",
+    "R134a",
+    "R143a",
+    "R152A",
+    "R227EA",
+    "R236EA",
+    "R236FA",
+    "R245ca",
+    "R245fa",
+    "R365MFC",
+
+    "R1233zd(E)",
+    "R1234yf",
+    "R1234ze(E)",
+    "R1234ze(Z)",
+
+    "R123",
+    "R124",
+    "R141b",
+    "R142b",
+    "R22",
+
+    "n-Butane",
+    "IsoButane",
+    "n-Pentane",
+    "IsoPentane",
+    "Cyclopentane",
+    "CycloHexane",
+    "n-Hexane",
+    "n-Heptane",
+    "n-Octane",
+    "Benzene",
+    "Toluene",
+    "CycloPropane",
+
+    "Ethanol",
+    "Methanol",
+
+    "Novec649"
+  ],
+
+  "cooling_temperature_difference": 0,
+  "condenser_pressure_drop": 0,
+  "n_fluids": null,
+  "max_n_fluids": 5,
+  "should_minimize_n_fluids": true,
+  "should_print_run": true,
+  "mixture_mass_fraction_limit": 0.000001,
+  "thermodynamic_calculation_method": "REFPROP",
+  "REFPROP_path": "C:\\Program Files\\REFPROP",
+  "n_run": 1,
+  "n_gen": 10,
+  "n_pop": 40,
+  "turbine_efficiency": 1,
+  "pump_efficiency": 1,
+  "mass_flow_rate": 1
+}
