@@ -43,7 +43,6 @@ def fil(a):
     return filtered_list / sum(filtered_list)
 def normalization(x , n = None):
     global n_fluids
-    print(n , n_fluids)
     if n_fluids:
         n = n_fluids
     if x.ndim == 1:
