@@ -1,7 +1,7 @@
-run_name = "run mod 1"
+run_name = "run mod T = 250 , P = 4M no acetone"
 T0 = 20  #default ambient temperature [C]
-T_source = 50 # heat source temperature [C]
-max_boiler_pressure = 10e6 #[pa]
+T_source = 250 # heat source temperature [C]
+max_boiler_pressure = 4e6 #[pa]
 min_turbine_outlet_quality = 1 #[0-1]
 ORC_FLUIDS = [
         # "water",
@@ -44,7 +44,7 @@ ORC_FLUIDS = [
         "Toluene",
         "CycloPropane",
         # Oxygenated compounds
-        "Acetone",
+        # "Acetone",
         "Ethanol",
         "Methanol",
 
@@ -54,12 +54,12 @@ ORC_FLUIDS = [
 cooling_temperature_difference = 0 #[C]
 condenser_pressure_drop = 0 #[pa]
 n_fluids = None # number of fluids that algorithm should make a mixture with
-max_n_fluids = 1 # algorithm can pick best fluid mixture for you [put -1 for none restricted fluid selection]
-should_minimize_n_fluids = False
+max_n_fluids = 5 # algorithm can pick best fluid mixture for you [put -1 for none restricted fluid selection]
+should_minimize_n_fluids = True
 #WARN :n_fluids and max_n_fluids are incompatible variables and one must be None at all time
 should_print_run = True
 mixture_mass_fraction_limit = 1e-6 
-thermodynamic_calculation_method = "HEOS" # [REFPROP | SRK | HEOS] use REFPROP if you have refprop installed 
+thermodynamic_calculation_method = "REFPROP" # [REFPROP | SRK | HEOS] use REFPROP if you have refprop installed 
 REFPROP_path = r"C:\Program Files\REFPROP"
 n_run = 5 #how many times should the algorithm run
 n_gen =80 
